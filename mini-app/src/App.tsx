@@ -1,31 +1,20 @@
-import { useState, useEffect, ReactNode } from 'react';
-import bridge, { UserInfo } from '@vkontakte/vk-bridge';
-import { View, SplitLayout, SplitCol, ScreenSpinner } from '@vkontakte/vkui';
-import { useActiveVkuiLocation } from '@vkontakte/vk-mini-apps-router';
+import { View, SplitLayout, SplitCol } from "@vkontakte/vkui";
+import { useActiveVkuiLocation } from "@vkontakte/vk-mini-apps-router";
 
-import { Persik, Home } from './panels';
-import { DEFAULT_VIEW_PANELS } from './routes';
+import { Home } from "./panels";
+import { News } from "./panels/News";
+import { DEFAULT_VIEW_PANELS } from "./routes";
 
 export const App = () => {
-  const { panel: activePanel = DEFAULT_VIEW_PANELS.HOME } = useActiveVkuiLocation();
-  const [fetchedUser, setUser] = useState<UserInfo | undefined>();
-  const [popout, setPopout] = useState<ReactNode | null>(<ScreenSpinner size="large" />);
-
-  useEffect(() => {
-    async function fetchData() {
-      const user = await bridge.send('VKWebAppGetUserInfo');
-      setUser(user);
-      setPopout(null);
-    }
-    fetchData();
-  }, []);
+  const { panel: activePanel = DEFAULT_VIEW_PANELS.HOME } =
+    useActiveVkuiLocation();
 
   return (
-    <SplitLayout popout={popout}>
+    <SplitLayout>
       <SplitCol>
         <View activePanel={activePanel}>
-          <Home id="home" fetchedUser={fetchedUser} />
-          <Persik id="persik" />
+          <Home id="news" />
+          <News id=":id" />
         </View>
       </SplitCol>
     </SplitLayout>
