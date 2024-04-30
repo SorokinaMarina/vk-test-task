@@ -4,6 +4,7 @@ import { getComments } from "../../utils/api";
 import { IComment } from "../../utils/interface";
 import { getDate } from "../../utils/constants";
 import { CommentKids } from "../CommentKids/CommentKids";
+import { decodeHtml } from "../../utils/constants";
 
 interface ICommentProps {
   item: number;
@@ -13,7 +14,6 @@ interface ICommentProps {
 export const Comment = ({ item, setCountComment }: ICommentProps) => {
   const [comment, setComment] = useState<IComment | null>(null);
   const [onClickComment, setOnClickComment] = useState<boolean>(false);
-  console.log(comment);
 
   useEffect(() => {
     getComments(item).then((data: IComment) => {
@@ -47,7 +47,7 @@ export const Comment = ({ item, setCountComment }: ICommentProps) => {
               display: "block",
             }}
           >
-            {comment.text}
+            {decodeHtml(comment.text)}
           </Paragraph>
           {comment.kids && (
             <Button

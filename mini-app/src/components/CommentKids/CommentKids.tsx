@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { getComments } from "../../utils/api";
 import { IComment } from "../../utils/interface";
 import { getDate } from "../../utils/constants";
+import { decodeHtml } from "../../utils/constants";
 
 interface CommentKids {
   item: number;
@@ -43,7 +44,7 @@ export const CommentKids = ({ item, setCountComment }: CommentKids) => {
               display: "block",
             }}
           >
-            {commentKids.text}
+            {decodeHtml(commentKids.text)}
           </Paragraph>
         </Group>
       )}

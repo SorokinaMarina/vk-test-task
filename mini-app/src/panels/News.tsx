@@ -26,7 +26,6 @@ export const News = ({ id }: INewsProps): JSX.Element => {
     (state: { newsReducer: INewsState }) => state.newsReducer.newsElement
   );
   const routeNavigator = useRouteNavigator();
-
   const [countComment, setCountComment] = useState<number>(0);
 
   useEffect(() => {
@@ -59,6 +58,12 @@ export const News = ({ id }: INewsProps): JSX.Element => {
             </Button>
           </MiniInfoCell>
           <Header>{`Комментарии ${countComment}`}</Header>
+          <Button
+            mode="link"
+            style={{ marginLeft: 15, marginBottom: 10, marginTop: 0 }}
+          >
+            Обновить комментарии
+          </Button>
           {news.kids &&
             news.kids.map((item: number) => (
               <Comment
