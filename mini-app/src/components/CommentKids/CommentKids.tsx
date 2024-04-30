@@ -4,7 +4,12 @@ import { getComments } from "../../utils/api";
 import { IComment } from "../../utils/interface";
 import { getDate } from "../../utils/constants";
 
-export const CommentKids = ({ item }: { item: number }) => {
+interface CommentKids {
+  item: number;
+  setCountComment: React.Dispatch<React.SetStateAction<number>>;
+}
+
+export const CommentKids = ({ item, setCountComment }: CommentKids) => {
   const [commentKids, setCommentKids] = useState<IComment | null>(null);
 
   useEffect(() => {
@@ -12,6 +17,12 @@ export const CommentKids = ({ item }: { item: number }) => {
       setCommentKids(data);
     });
   }, [item]);
+
+  useEffect(() => {
+    if (commentKids && !commentKids.text) {
+      setCountComment((prev) => prev - 1);
+    }
+  }, [commentKids, setCountComment]);
 
   return (
     <div>

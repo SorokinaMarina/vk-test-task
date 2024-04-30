@@ -13,6 +13,7 @@ import { INewsState } from "../redux/slice/newsSlice";
 import { getDate } from "../utils/constants";
 import { useRouteNavigator } from "@vkontakte/vk-mini-apps-router";
 import { Comment } from "../components/Comment/Comment";
+import { useState, useEffect } from "react";
 
 interface INewsProps {
   id: string;
@@ -24,8 +25,15 @@ export const News = ({ id }: INewsProps): JSX.Element => {
   const news = useSelector(
     (state: { newsReducer: INewsState }) => state.newsReducer.newsElement
   );
-  console.log(news);
   const routeNavigator = useRouteNavigator();
+
+  const [countComment, setCountComment] = useState<number>(0);
+
+  useEffect(() => {
+    if (news && news.kids) {
+      setCountComment(news.kids.length);
+    }
+  }, [news]);
 
   return (
     <Panel id={id}>
@@ -41,13 +49,24 @@ export const News = ({ id }: INewsProps): JSX.Element => {
             </Link>
           </MiniInfoCell>
           <MiniInfoCell>
-            <Button onClick={() => routeNavigator.back()}>
+            <Button
+              onClick={() => {
+                setCountComment(0);
+                routeNavigator.back();
+              }}
+            >
               Вернуться к новостям
             </Button>
           </MiniInfoCell>
-          <Header>Комментарии</Header>
+          <Header>{`Комментарии ${countComment}`}</Header>
           {news.kids &&
-            news.kids.map((item: number) => <Comment key={item} item={item} />)}
+            news.kids.map((item: number) => (
+              <Comment
+                key={item}
+                item={item}
+                setCountComment={setCountComment}
+              />
+            ))}
         </Group>
       )}
     </Panel>

@@ -5,15 +5,30 @@ import { IComment } from "../../utils/interface";
 import { getDate } from "../../utils/constants";
 import { CommentKids } from "../CommentKids/CommentKids";
 
-export const Comment = ({ item }: { item: number }) => {
+interface ICommentProps {
+  item: number;
+  setCountComment: React.Dispatch<React.SetStateAction<number>>;
+}
+
+export const Comment = ({ item, setCountComment }: ICommentProps) => {
   const [comment, setComment] = useState<IComment | null>(null);
   const [onClickComment, setOnClickComment] = useState<boolean>(false);
+  console.log(comment);
 
   useEffect(() => {
     getComments(item).then((data: IComment) => {
       setComment(data);
+      if (data.kids) {
+        setCountComment((prev) => prev + data.kids.length);
+      }
     });
-  }, [item]);
+  }, [item, setCountComment]);
+
+  useEffect(() => {
+    if (comment && !comment.text) {
+      setCountComment((prev) => prev - 1);
+    }
+  }, [comment, setCountComment]);
 
   return (
     <div>
@@ -50,7 +65,11 @@ export const Comment = ({ item }: { item: number }) => {
           {onClickComment &&
             comment.kids &&
             comment.kids.map((kidId: number) => (
-              <CommentKids key={kidId} item={kidId} />
+              <CommentKids
+                key={kidId}
+                item={kidId}
+                setCountComment={setCountComment}
+              />
             ))}
         </Group>
       )}
