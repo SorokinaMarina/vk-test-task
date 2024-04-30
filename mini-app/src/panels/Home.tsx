@@ -1,11 +1,12 @@
-import { Panel, PanelHeader } from "@vkontakte/vkui";
-import { Card } from "../components/Card/Card";
+import { Panel, PanelHeader, Button, Group } from "@vkontakte/vkui";
+import { CardElement } from "../components/CardElement/CardElement";
 import { getIds } from "../utils/api";
 import { useState, useEffect } from "react";
 
 export const Home = ({ id }: { id: string }): JSX.Element => {
   const [ids, setIds] = useState<number[] | []>([]);
 
+  // Вынесена логика обращения к серверу в отдельную функцию
   async function getIdsArr() {
     try {
       getIds().then((data: number[]) => {
@@ -35,11 +36,26 @@ export const Home = ({ id }: { id: string }): JSX.Element => {
     return () => clearInterval(interval);
   }, []);
 
+  // Функция для обновления данных на странице при клике на кнопку "Обновить ленту"
+  function handleUpdate() {
+    getIdsArr();
+  }
+
   return (
     <Panel id={id}>
       <PanelHeader>Новости</PanelHeader>
-      {ids.length !== 0 &&
-        ids.map((item: number, i: number) => <Card key={i} item={item} />)}
+      <Group>
+        <Button
+          style={{ marginLeft: 17, marginTop: 15, marginBottom: 15 }}
+          onClick={handleUpdate}
+        >
+          Обновить ленту
+        </Button>
+        {ids.length !== 0 &&
+          ids.map((item: number, i: number) => (
+            <CardElement key={i} item={item} />
+          ))}
+      </Group>
     </Panel>
   );
 };

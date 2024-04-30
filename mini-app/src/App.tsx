@@ -1,6 +1,7 @@
 import { View, SplitLayout, SplitCol } from "@vkontakte/vkui";
 import { useActiveVkuiLocation } from "@vkontakte/vk-mini-apps-router";
-
+import { Provider } from "react-redux";
+import store from "./redux/store";
 import { Home } from "./panels";
 import { News } from "./panels/News";
 import { DEFAULT_VIEW_PANELS } from "./routes";
@@ -10,13 +11,15 @@ export const App = () => {
     useActiveVkuiLocation();
 
   return (
-    <SplitLayout>
-      <SplitCol>
-        <View activePanel={activePanel}>
-          <Home id="news" />
-          <News id=":id" />
-        </View>
-      </SplitCol>
-    </SplitLayout>
+    <Provider store={store}>
+      <SplitLayout>
+        <SplitCol>
+          <View activePanel={activePanel}>
+            <Home id="news" />
+            <News id=":id" />
+          </View>
+        </SplitCol>
+      </SplitLayout>
+    </Provider>
   );
 };
