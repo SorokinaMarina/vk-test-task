@@ -13,7 +13,7 @@ export interface INews {
 export interface IComment {
   by: string;
   id: number;
-  kids: number;
+  kids: number[];
   parent: number;
   text: string;
   time: number;

@@ -12,20 +12,24 @@ interface ICommentProps {
 }
 
 export const Comment = ({ item, setCountComment }: ICommentProps) => {
+  // Переменная сохраняет в себе объект с новостью
   const [comment, setComment] = useState<IComment | null>(null);
+  // Переменная отображает/скрывает дополнительные комментарии
   const [onClickComment, setOnClickComment] = useState<boolean>(false);
 
+  // useEffect обращается к серверу за комментарием по id
   useEffect(() => {
     getComments(item).then((data: IComment) => {
       setComment(data);
-      if (data.kids) {
-        setCountComment((prev) => prev + data.kids.length);
-      }
     });
   }, [item, setCountComment]);
 
+  // useEffect изменяет количество комментариев
   useEffect(() => {
-    if (comment && !comment.text) {
+    if (comment !== null && comment.kids) {
+      setCountComment((prev) => prev + comment.kids.length);
+    }
+    if (comment !== null && !comment.text) {
       setCountComment((prev) => prev - 1);
     }
   }, [comment, setCountComment]);
