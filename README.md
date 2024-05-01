@@ -46,3 +46,4 @@
 
   `yarn run tunnel`
 
+Приложение запустится на localhost:3000.
