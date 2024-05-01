@@ -1,28 +1,39 @@
-import { Group, Button, MiniInfoCell, Paragraph } from "@vkontakte/vkui";
+import {
+  Group,
+  Button,
+  MiniInfoCell,
+  Paragraph,
+} from "@vkontakte/vkui";
 import { useState, useEffect } from "react";
 import { getComments } from "../../utils/api";
-import { IComment } from "../../utils/interface";
+import { IComment, INews } from "../../utils/interface";
 import { getDate } from "../../utils/constants";
 import { CommentKids } from "../CommentKids/CommentKids";
 import { decodeHtml } from "../../utils/constants";
+import { useDispatch } from "react-redux";
 
 interface ICommentProps {
   item: number;
   setCountComment: React.Dispatch<React.SetStateAction<number>>;
+  news: INews;
 }
 
-export const Comment = ({ item, setCountComment }: ICommentProps) => {
+export const Comment = ({ item, setCountComment, news }: ICommentProps) => {
   // Переменная сохраняет в себе объект с новостью
   const [comment, setComment] = useState<IComment | null>(null);
   // Переменная отображает/скрывает дополнительные комментарии
   const [onClickComment, setOnClickComment] = useState<boolean>(false);
+  // Записывает данные в Redux с помощью метода useDispatch()
+  const dispatch = useDispatch();
 
   // useEffect обращается к серверу за комментарием по id
   useEffect(() => {
-    getComments(item).then((data: IComment) => {
-      setComment(data);
-    });
-  }, [item, setCountComment]);
+    getComments(item)
+      .then((data: IComment) => {
+        setComment(data);
+      })
+      .catch((err) => console.log(err))
+  }, [item, setCountComment, news, dispatch]);
 
   // useEffect изменяет количество комментариев
   useEffect(() => {

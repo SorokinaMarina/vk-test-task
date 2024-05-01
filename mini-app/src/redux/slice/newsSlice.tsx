@@ -9,7 +9,7 @@ const initialState: INewsState = {
   newsElement: null,
 };
 
-const productsSlice = createSlice({
+const newsSlice = createSlice({
   name: "news",
   initialState,
   reducers: {
@@ -19,6 +19,6 @@ const productsSlice = createSlice({
   },
 });
 
-export const { getNewsData } = productsSlice.actions;
+export const { getNewsData } = newsSlice.actions;
 
-export default productsSlice.reducer;
+export default newsSlice.reducer;

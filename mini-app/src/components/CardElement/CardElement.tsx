@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ContentCard, Div, Card } from "@vkontakte/vkui";
 import { INews } from "../../utils/interface";
 import { getNews } from "../../utils/api";
@@ -6,17 +7,33 @@ import { getDate } from "../../utils/constants";
 import { useRouteNavigator } from "@vkontakte/vk-mini-apps-router";
 import { useDispatch } from "react-redux";
 import { getNewsData } from "../../redux/slice/newsSlice";
+import { setIsLoadingNews } from "../../redux/slice/isLoadingNewsReducer";
 
-export const CardElement = ({ item }: { item: number }) => {
+interface ICardElementProps {
+  item: number;
+  ids: number[];
+}
+
+export const CardElement = ({ item, ids }: ICardElementProps) => {
+  // Записываем в переменную объект с новостью
   const [news, setNews] = useState<INews | null>(null);
+  // Роутер
   const routeNavigator = useRouteNavigator();
+  // Записывает данные в Redux с помощью метода useDispatch()
   const dispatch = useDispatch();
 
+  // useEffect получает данные о новости с сервера
   useEffect(() => {
-    getNews(item).then((data: INews) => {
-      setNews(data);
-    });
-  }, [item]);
+    dispatch(setIsLoadingNews(true));
+    getNews(item)
+      .then((data: INews) => {
+        setNews(data);
+      })
+      .catch((err) => console.log(err))
+      .finally(() => {
+        dispatch(setIsLoadingNews(false));
+      });
+  }, [item, ids, dispatch]);
 
   return (
     <Div>
