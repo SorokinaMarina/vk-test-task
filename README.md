@@ -1,7 +1,9 @@
 # Приложение с новостями
 
 Мини-приложение, реализованное на платформе [VK Mini Apps](https://dev.vk.com/ru) с использованием [Hacker News API](https://news.ycombinator.com/news). 
+
 UI разработан с помощью [VKUI](https://dev.vk.com/ru/libraries/vkui). 
+
 Роутинг выполнен с помощью [vk-mini-apps-router](https://dev.vk.com/ru/libraries/router).
 
 ### ID: 51914756
