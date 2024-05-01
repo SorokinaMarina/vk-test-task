@@ -1,9 +1,4 @@
-import {
-  Group,
-  Button,
-  MiniInfoCell,
-  Paragraph,
-} from "@vkontakte/vkui";
+import { Group, Button, MiniInfoCell, Paragraph } from "@vkontakte/vkui";
 import { useState, useEffect } from "react";
 import { getComments } from "../../utils/api";
 import { IComment, INews } from "../../utils/interface";
@@ -11,6 +6,7 @@ import { getDate } from "../../utils/constants";
 import { CommentKids } from "../CommentKids/CommentKids";
 import { decodeHtml } from "../../utils/constants";
 import { useDispatch } from "react-redux";
+import { DeletedComments } from "../DeletedComment/DeletedComments";
 
 interface ICommentProps {
   item: number;
@@ -18,7 +14,11 @@ interface ICommentProps {
   news: INews;
 }
 
-export const Comment = ({ item, setCountComment, news }: ICommentProps) => {
+export const Comment = ({
+  item,
+  setCountComment,
+  news,
+}: ICommentProps): JSX.Element => {
   // Переменная сохраняет в себе объект с новостью
   const [comment, setComment] = useState<IComment | null>(null);
   // Переменная отображает/скрывает дополнительные комментарии
@@ -27,26 +27,26 @@ export const Comment = ({ item, setCountComment, news }: ICommentProps) => {
   const dispatch = useDispatch();
 
   // useEffect обращается к серверу за комментарием по id
-  useEffect(() => {
+  useEffect((): void => {
     getComments(item)
       .then((data: IComment) => {
         setComment(data);
       })
-      .catch((err) => console.log(err))
+      .catch((err) => console.log(err));
   }, [item, setCountComment, news, dispatch]);
 
   // useEffect изменяет количество комментариев
-  useEffect(() => {
+  useEffect((): void => {
     if (comment !== null && comment.kids) {
       setCountComment((prev) => prev + comment.kids.length);
     }
-    if (comment !== null && !comment.text) {
-      setCountComment((prev) => prev - 1);
-    }
-  }, [comment, setCountComment]);
+  }, [comment, setCountComment, news]);
 
   return (
     <div>
+      {comment !== null && !comment.text && comment.deleted === true && (
+        <DeletedComments time={comment.time} />
+      )}
       {comment !== null && comment.text && (
         <Group style={{ marginLeft: 15 }}>
           <MiniInfoCell style={{ paddingTop: 15, paddingBottom: 0 }}>
@@ -80,11 +80,7 @@ export const Comment = ({ item, setCountComment, news }: ICommentProps) => {
           {onClickComment &&
             comment.kids &&
             comment.kids.map((kidId: number) => (
-              <CommentKids
-                key={kidId}
-                item={kidId}
-                setCountComment={setCountComment}
-              />
+              <CommentKids key={kidId} item={kidId} />
             ))}
         </Group>
       )}

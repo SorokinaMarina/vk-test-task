@@ -44,14 +44,14 @@ export const News = ({ id }: INewsProps): JSX.Element => {
   const [countComment, setCountComment] = useState<number>(0);
 
   // useEffect считает количество основных комментариев
-  useEffect(() => {
+  useEffect((): void => {
     if (news && news.kids) {
       setCountComment(news.kids.length);
     }
   }, [news]);
 
   // Функция срабатывает при нажатии на кнопку "Обновить комментарии"
-  function handleUpdateNews() {
+  function handleUpdateNews(): void {
     if (news !== null) {
       dispatch(setIsLoadingNews(true));
       getNews(news.id)
@@ -78,7 +78,6 @@ export const News = ({ id }: INewsProps): JSX.Element => {
         >
           Вернуться к новостям
         </Button>
-        Новости
       </PanelHeader>
       {news !== null && !isLoading ? (
         <Group style={{ borderRadius: 0 }}>

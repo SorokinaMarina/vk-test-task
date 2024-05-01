@@ -15,7 +15,8 @@ export interface IComment {
   id: number;
   kids: number[];
   parent: number;
-  text: string;
+  text?: string;
   time: number;
   type: string;
+  deleted?: boolean;
 }

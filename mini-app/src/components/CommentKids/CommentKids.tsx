@@ -4,29 +4,28 @@ import { getComments } from "../../utils/api";
 import { IComment } from "../../utils/interface";
 import { getDate } from "../../utils/constants";
 import { decodeHtml } from "../../utils/constants";
+import { DeletedComments } from "../DeletedComment/DeletedComments";
 
 interface CommentKids {
   item: number;
-  setCountComment: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export const CommentKids = ({ item, setCountComment }: CommentKids) => {
+export const CommentKids = ({ item }: CommentKids): JSX.Element => {
   const [commentKids, setCommentKids] = useState<IComment | null>(null);
 
-  useEffect(() => {
+  useEffect((): void => {
     getComments(item).then((data: IComment) => {
       setCommentKids(data);
     });
   }, [item]);
 
-  useEffect(() => {
-    if (commentKids && !commentKids.text) {
-      setCountComment((prev) => prev - 1);
-    }
-  }, [commentKids, setCountComment]);
-
   return (
     <div>
+      {commentKids !== null &&
+        !commentKids.text &&
+        commentKids.deleted === true && (
+          <DeletedComments time={commentKids.time} />
+        )}
       {commentKids !== null && commentKids.text && (
         <Group style={{ marginLeft: 15 }}>
           <MiniInfoCell style={{ paddingTop: 15, paddingBottom: 0 }}>
