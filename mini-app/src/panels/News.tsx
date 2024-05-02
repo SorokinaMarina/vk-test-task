@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Panel,
   PanelHeader,
@@ -20,6 +21,7 @@ import {
   IIsLoadingNewsState,
   setIsLoadingNews,
 } from "../redux/slice/isLoadingNewsReducer";
+import { setIsLoading } from "../redux/slice/isLoadingReducer";
 
 interface INewsProps {
   id: string;
@@ -86,7 +88,7 @@ export const News = ({ id }: INewsProps): JSX.Element => {
           <MiniInfoCell>{`Автор: ${news.by}`}</MiniInfoCell>
           <MiniInfoCell>
             <Link href={news.url} target="_blank">
-              Ссылка на новость
+              Ссылка на источник
             </Link>
           </MiniInfoCell>
 
@@ -99,14 +101,16 @@ export const News = ({ id }: INewsProps): JSX.Element => {
             Обновить комментарии
           </Button>
           {news.kids &&
-            news.kids.map((item: number) => (
-              <Comment
-                key={item}
-                item={item}
-                setCountComment={setCountComment}
-                news={news}
-              />
-            ))}
+            [...news.kids]
+              .sort((a: number, b: number) => b - a)
+              .map((item: number) => (
+                <Comment
+                  key={item}
+                  item={item}
+                  setCountComment={setCountComment}
+                  news={news}
+                />
+              ))}
         </Group>
       ) : (
         <Spinner size="large" style={{ margin: "20px 0" }} />

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ContentCard, Div, Card } from "@vkontakte/vkui";
 import { INews } from "../../utils/interface";
 import { getNews } from "../../utils/api";
@@ -7,7 +6,7 @@ import { getDate } from "../../utils/constants";
 import { useRouteNavigator } from "@vkontakte/vk-mini-apps-router";
 import { useDispatch } from "react-redux";
 import { getNewsData } from "../../redux/slice/newsSlice";
-import { setIsLoadingNews } from "../../redux/slice/isLoadingNewsReducer";
+import { setIsLoading } from "../../redux/slice/isLoadingReducer";
 
 interface ICardElementProps {
   item: number;
@@ -24,14 +23,13 @@ export const CardElement = ({ item, ids }: ICardElementProps) => {
 
   // useEffect получает данные о новости с сервера
   useEffect(() => {
-    dispatch(setIsLoadingNews(true));
     getNews(item)
       .then((data: INews) => {
         setNews(data);
       })
       .catch((err) => console.log(err))
       .finally(() => {
-        dispatch(setIsLoadingNews(false));
+        dispatch(setIsLoading(false));
       });
   }, [item, ids, dispatch]);
 

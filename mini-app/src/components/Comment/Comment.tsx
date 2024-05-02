@@ -79,9 +79,9 @@ export const Comment = ({
           )}
           {onClickComment &&
             comment.kids &&
-            comment.kids.map((kidId: number) => (
-              <CommentKids key={kidId} item={kidId} />
-            ))}
+            [...comment.kids]
+              .sort((a: number, b: number) => b - a)
+              .map((kidId: number) => <CommentKids key={kidId} item={kidId} />)}
         </Group>
       )}
     </div>

@@ -24,12 +24,11 @@ export const Home = ({ id }: { id: string }): JSX.Element => {
     getIds()
       .then((data: number[]) => {
         if (data) {
-          const sortArr = data.sort((a: number, b: number) => a - b);
-          const reverse = sortArr.reverse();
-          if (reverse.length > 100) {
-            setIds(reverse.slice(0, 100));
+          const sortArr = data.sort((a: number, b: number) => b - a);
+          if (sortArr.length > 100) {
+            setIds(sortArr.slice(0, 100));
           } else {
-            setIds(reverse);
+            setIds(sortArr);
           }
         }
       })
