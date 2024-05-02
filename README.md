@@ -7,9 +7,9 @@ UI разработан с помощью [VKUI](https://dev.vk.com/ru/libraries
 Роутинг выполнен с помощью [vk-mini-apps-router](https://dev.vk.com/ru/libraries/router).
 
 ### ID: 51914756
-[m.vk.com](https://prod-app51914756-08f40c4213a5.pages-ac.vk-apps.com/index.html)
+[m.vk.com](https://prod-app51914756-61b5f00b245e.pages-ac.vk-apps.com/index.html)
 
-[vk.com](https://prod-app51914756-08f40c4213a5.pages-ac.vk-apps.com/index.html)
+[vk.com](https://prod-app51914756-61b5f00b245e.pages-ac.vk-apps.com/index.html)
 
 
 ## Описание
