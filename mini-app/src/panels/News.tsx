@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Panel,
   PanelHeader,
@@ -21,7 +20,6 @@ import {
   IIsLoadingNewsState,
   setIsLoadingNews,
 } from "../redux/slice/isLoadingNewsReducer";
-import { setIsLoading } from "../redux/slice/isLoadingReducer";
 
 interface INewsProps {
   id: string;
